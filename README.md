@@ -60,48 +60,68 @@ npm run dev
 
 ---
 
-## 🌐 Deployment Guide
+## 🌐 Deployment on Vercel (Full-Stack)
 
-### Deploy Full-Stack on Vercel
+### Overview
+- **Frontend**: Deployed on Vercel main project
+- **Backend**: Deployed on separate Vercel project (or Railway for better Socket.io support)
 
-**Step 1: Prepare Your Repository**
-```bash
-git add .
-git commit -m "Ready for Vercel deployment"
-git push origin main
-```
+### Why Separate Deployments?
+Socket.io requires persistent WebSocket connections. Vercel Functions are serverless and stateless, so the backend runs best on:
+- **Vercel** (separate project with `/server` as the root)
+- **Railway** (recommended for better WebSocket support)
+- **Render** or other persistent container services
 
-**Step 2: Deploy on Vercel**
+---
+
+### **Option 1: Both on Vercel (Recommended for Learning)**
+
+#### Deploy Frontend
 1. Go to [vercel.com](https://vercel.com)
 2. Click **"New Project"** → **"Import Git Repository"**
 3. Select your **GeoSync repository**
-4. In the **Build & Development Settings**:
-   - **Framework Preset**: Next.js
-   - **Root Directory**: Leave blank (mono-repo)
-5. Click **"Environment Variables"** and add:
+4. Set **Root Directory** to `.` (root)
+5. Add Environment Variables:
    ```
-   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = your_actual_google_maps_key
-   NEXT_PUBLIC_SERVER_URL = https://your-vercel-deployment.vercel.app
+   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = your_actual_key
+   NEXT_PUBLIC_SERVER_URL = https://geosync-server-vercel.vercel.app
    ```
-   (This tells the frontend where the backend is running)
 6. Click **"Deploy"** ✅
 
-**Step 3: Configure Vercel For Both Client & Server**
-Since Vercel doesn't natively handle dual deployments, you have two options:
+#### Deploy Backend as Separate Vercel Project
+1. Go to [vercel.com](https://vercel.com)
+2. Click **"New Project"** → **"Import Git Repository"**
+3. Select your **GeoSync repository** again
+4. Set **Root Directory** to `/server`
+5. Add Environment Variable:
+   ```
+   PORT = 5000
+   ```
+6. Click **"Deploy"** ✅
+7. Copy your backend URL and update the frontend's `NEXT_PUBLIC_SERVER_URL` in Vercel settings
 
-**Option A: Deploy Frontend on Vercel + Backend on Railway (Recommended)**
-- Deploy frontend with `NEXT_PUBLIC_SERVER_URL` pointing to your Railway backend
-- Follow [Railway Backend Deployment Guide](https://railway.app/docs/deploy/nodejs)
+---
 
-**Option B: Keep Full Stack on Vercel with Rewrites**
-- The `vercel.json` configuration handles routing between client and server
-- Run both in development: `npm run dev:all` (after setting up root scripts)
+### **Option 2: Backend on Railway (Recommended for Production)**
+
+#### Deploy Frontend on Vercel (Same as Above)
+
+#### Deploy Backend on Railway
+1. Go to [railway.app](https://railway.app)
+2. Click **"New Project"** → **"Deploy from GitHub"**
+3. Select your **GeoSync repository**
+4. Set **Root Directory** to `/server`
+5. Add Environment Variable: `PORT=5000`
+6. Click **"Deploy"** ✅
+7. Copy the Railway backend URL
+8. Go to your Vercel project → Settings → Environment Variables
+9. Update: `NEXT_PUBLIC_SERVER_URL = https://your-railway-backend.up.railway.app`
 
 ---
 
 ## 🌐 Hosted Demo Links
-*   **Frontend**: [Your Vercel URL Here]
-*   **Backend**: [Your Backend URL Here]
+*   **Frontend**: [Your Vercel Frontend URL]
+*   **Backend**: [Your Vercel/Railway Backend URL]
 
 ---
 
