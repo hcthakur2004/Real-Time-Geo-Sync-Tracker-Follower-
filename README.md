@@ -60,72 +60,14 @@ npm run dev
 
 ---
 
-## 🌐 Deployment on Vercel (Full-Stack)
+## 🌐 Hosted Demo
+> *Add your Render deployed links here after deployment!*
 
-### Overview
-- **Frontend**: Deployed on Vercel main project
-- **Backend**: Deployed on separate Vercel project (or Railway for better Socket.io support)
-
-### Why Separate Deployments?
-Socket.io requires persistent WebSocket connections. Vercel Functions are serverless and stateless, so the backend runs best on:
-- **Vercel** (separate project with `/server` as the root)
-- **Railway** (recommended for better WebSocket support)
-- **Render** or other persistent container services
-
----
-
-### **Option 1: Both on Vercel (Recommended for Learning)**
-
-#### Deploy Frontend
-1. Go to [vercel.com](https://vercel.com)
-2. Click **"New Project"** → **"Import Git Repository"**
-3. Select your **GeoSync repository**
-4. Set **Root Directory** to `.` (root)
-5. Add Environment Variables:
-   ```
-   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = your_actual_key
-   NEXT_PUBLIC_SERVER_URL = https://geosync-server-vercel.vercel.app
-   ```
-6. Click **"Deploy"** ✅
-
-#### Deploy Backend as Separate Vercel Project
-1. Go to [vercel.com](https://vercel.com)
-2. Click **"New Project"** → **"Import Git Repository"**
-3. Select your **GeoSync repository** again
-4. Set **Root Directory** to `/server`
-5. Add Environment Variable:
-   ```
-   PORT = 5000
-   ```
-6. Click **"Deploy"** ✅
-7. Copy your backend URL and update the frontend's `NEXT_PUBLIC_SERVER_URL` in Vercel settings
-
----
-
-### **Option 2: Backend on Railway (Recommended for Production)**
-
-#### Deploy Frontend on Vercel (Same as Above)
-
-#### Deploy Backend on Railway
-1. Go to [railway.app](https://railway.app)
-2. Click **"New Project"** → **"Deploy from GitHub"**
-3. Select your **GeoSync repository**
-4. Set **Root Directory** to `/server`
-5. Add Environment Variable: `PORT=5000`
-6. Click **"Deploy"** ✅
-7. Copy the Railway backend URL
-8. Go to your Vercel project → Settings → Environment Variables
-9. Update: `NEXT_PUBLIC_SERVER_URL = https://your-railway-backend.up.railway.app`
-
----
-
-## 🌐 Hosted Demo Links
-*   **Frontend**: [Your Vercel Frontend URL]
-*   **Backend**: [Your Vercel/Railway Backend URL]
+*   **Frontend**: `https://geosync-frontend.onrender.com`
+*   **Backend**: `https://geosync-backend.onrender.com`
 
 ---
 
 ## 🏗️ Architecture & Considerations
 - **Memory Management**: Custom `useSocket` hooks safely mount and dismount `.off()` listeners within the React lifecycle to guarantee zero memory leaks.
 - **Precision**: We utilize Google's native high-precision map functions (`map.getCenter().lat()`) when emitting payload data to ensure both clients match flawlessly down to the street level.
-- **Real-time Sync**: Socket.io manages room-based state for tracker/tracked role assignment and ensures <100ms latency on map updates.
