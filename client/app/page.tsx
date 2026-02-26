@@ -9,7 +9,7 @@ export default function Home() {
   const [roomId, setRoomId] = useState<string>("");
 
   // Use local server for tests, ideally process.env.NEXT_PUBLIC_SOCKET_SERVER
-  const serverUrl = "http://localhost:5000";
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";
   const { state, mapSyncData, joinRoom, emitMapUpdate } = useSocket(serverUrl);
 
   const handleJoin = (id: string) => {
@@ -61,3 +61,4 @@ export default function Home() {
     />
   );
 }
+
