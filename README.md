@@ -61,10 +61,8 @@ npm run dev
 ---
 
 ## 🌐 Hosted Demo
-> *Add your Render deployed links here after deployment!*
-
-*   **Frontend**: `https://geosync-frontend.onrender.com`
-*   **Backend**: `https://geosync-backend.onrender.com`
+*   **Frontend**: `https://real-time-geo-sync-tracker-follower-b.onrender.com`
+*   **Backend**: `https://real-time-geo-sync-tracker-follower.onrender.com`
 
 ---
 
