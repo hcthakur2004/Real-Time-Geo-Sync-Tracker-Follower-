@@ -60,14 +60,52 @@ npm run dev
 
 ---
 
-## 🌐 Hosted Demo (Optional)
-> *[Add your Vercel/Render/Railway deployed links here before submitting!]*
+## 🌐 Deployment Guide
 
-*   **Frontend**: `https://geosync-live.vercel.app` (Placeholder)
-*   **Backend**: `https://geosync-server.up.railway.app` (Placeholder)
+### Deploy Full-Stack on Vercel
+
+**Step 1: Prepare Your Repository**
+```bash
+git add .
+git commit -m "Ready for Vercel deployment"
+git push origin main
+```
+
+**Step 2: Deploy on Vercel**
+1. Go to [vercel.com](https://vercel.com)
+2. Click **"New Project"** → **"Import Git Repository"**
+3. Select your **GeoSync repository**
+4. In the **Build & Development Settings**:
+   - **Framework Preset**: Next.js
+   - **Root Directory**: Leave blank (mono-repo)
+5. Click **"Environment Variables"** and add:
+   ```
+   NEXT_PUBLIC_GOOGLE_MAPS_API_KEY = your_actual_google_maps_key
+   NEXT_PUBLIC_SERVER_URL = https://your-vercel-deployment.vercel.app
+   ```
+   (This tells the frontend where the backend is running)
+6. Click **"Deploy"** ✅
+
+**Step 3: Configure Vercel For Both Client & Server**
+Since Vercel doesn't natively handle dual deployments, you have two options:
+
+**Option A: Deploy Frontend on Vercel + Backend on Railway (Recommended)**
+- Deploy frontend with `NEXT_PUBLIC_SERVER_URL` pointing to your Railway backend
+- Follow [Railway Backend Deployment Guide](https://railway.app/docs/deploy/nodejs)
+
+**Option B: Keep Full Stack on Vercel with Rewrites**
+- The `vercel.json` configuration handles routing between client and server
+- Run both in development: `npm run dev:all` (after setting up root scripts)
+
+---
+
+## 🌐 Hosted Demo Links
+*   **Frontend**: [Your Vercel URL Here]
+*   **Backend**: [Your Backend URL Here]
 
 ---
 
 ## 🏗️ Architecture & Considerations
 - **Memory Management**: Custom `useSocket` hooks safely mount and dismount `.off()` listeners within the React lifecycle to guarantee zero memory leaks.
 - **Precision**: We utilize Google's native high-precision map functions (`map.getCenter().lat()`) when emitting payload data to ensure both clients match flawlessly down to the street level.
+- **Real-time Sync**: Socket.io manages room-based state for tracker/tracked role assignment and ensures <100ms latency on map updates.
